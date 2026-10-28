@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CBDM — Quiz Cram (Sessions 1–3)</title>
+<style>
+:root{
+  --paper:#FBF8F3; --ink:#191A1E; --ink2:#4A4C55; --ink3:#7A7D88;
+  --line:#E3DDD2; --line2:#EFEAE1;
+  --accent:#A8401C; --accent-soft:#F6E7DE;
+  --teal:#0F6B62; --teal-soft:#E2F0ED;
+  --amber:#8A5A00; --amber-soft:#FBF0D9;
+  --blue:#1F3E7A; --blue-soft:#E6ECF7;
+  --card:#FFFFFF;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:16px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;font-weight:600;letter-spacing:-.01em;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.top{background:linear-gradient(160deg,#1B1C22 0%,#2A2118 55%,#3A2A1C 100%);color:#F7F3EC;padding:52px 0 44px;position:relative;overflow:hidden}
+.top:after{content:"";position:absolute;inset:auto -10% -60% 40%;height:300px;background:radial-gradient(circle,rgba(200,120,60,.35),transparent 65%);pointer-events:none}
+.top .eyebrow{font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:#D8A47F;font-weight:600}
+.top h1{font-size:44px;line-height:1.08;margin:14px 0 12px;max-width:800px}
+.top p{margin:0;color:#CFC7BA;max-width:660px;font-size:16.5px}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.pill{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:6px 13px;font-size:12.5px;color:#EFE7DA}
+.pill b{color:#fff;font-weight:600}
+
+.shell{display:grid;grid-template-columns:236px minmax(0,1fr);gap:44px;padding:40px 0 90px;align-items:start}
+nav.side{position:sticky;top:24px;font-size:14px}
+nav.side .navtitle{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin:0 0 10px 12px}
+nav.side a{display:block;padding:7px 12px;border-radius:8px;color:var(--ink2);text-decoration:none;border-left:2px solid transparent;transition:.15s}
+nav.side a:hover{background:#F1ECE3;color:var(--ink)}
+nav.side a .n{display:inline-block;width:20px;color:var(--accent);font-weight:700;font-size:12.5px}
+nav.side a.done{border-left-color:var(--teal);background:#EFF6F4}
+nav.side hr{border:0;border-top:1px solid var(--line);margin:14px 8px}
+
+.progress{margin:18px 12px 0;font-size:12px;color:var(--ink3)}
+.bar{height:5px;background:var(--line2);border-radius:99px;overflow:hidden;margin-top:7px}
+.bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),#3FA98F);transition:width .35s}
+
+section.mod{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:34px 36px 30px;margin-bottom:26px;box-shadow:0 1px 2px rgba(25,26,30,.04)}
+section.mod>h2{font-size:29px;line-height:1.15;margin:0 0 4px;display:flex;gap:14px;align-items:baseline}
+section.mod>h2 .num{font-size:15px;font-weight:700;color:var(--accent);letter-spacing:.1em;font-family:inherit}
+.sub{color:var(--ink3);font-size:14px;margin:0 0 22px}
+h3{font-size:19px;margin:30px 0 10px;padding-top:20px;border-top:1px solid var(--line2)}
+h3:first-of-type{border-top:0;padding-top:0;margin-top:22px}
+h4{font-size:14.5px;font-family:inherit;font-weight:700;color:var(--ink2);margin:18px 0 6px;letter-spacing:0}
+p{margin:0 0 12px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:0 0 7px}
+li::marker{color:var(--accent)}
+strong{font-weight:650}
+em.q{font-style:italic;color:var(--blue)}
+.lead{font-size:17px;color:var(--ink2)}
+
+.box{border-radius:12px;padding:16px 18px;margin:16px 0;font-size:15px}
+.box .lab{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;display:block;margin-bottom:7px}
+.key{background:var(--teal-soft);border:1px solid #C6E0DA}.key .lab{color:var(--teal)}
+.trap{background:var(--amber-soft);border:1px dashed #DDB863}.trap .lab{color:var(--amber)}
+.num{background:var(--blue-soft);border:1px solid #CCD8EE}.num .lab{color:var(--blue)}
+.box p:last-child,.box ul:last-child{margin-bottom:0}
+
+.tscroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin:14px 0 18px;font-size:14.5px}
+th{text-align:left;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);font-weight:800;padding:0 12px 8px 0;border-bottom:1.5px solid var(--line)}
+td{padding:9px 12px 9px 0;border-bottom:1px solid var(--line2);vertical-align:top}
+td:first-child{font-weight:600;color:var(--ink)}
+tr:last-child td{border-bottom:0}
+caption{caption-side:top;text-align:left;font-size:12px;color:var(--ink3);padding-bottom:8px}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.panel{background:#FAF7F1;border:1px solid var(--line2);border-radius:11px;padding:15px 17px;font-size:14.5px}
+.panel h4{margin-top:0}
+
+.quiz{background:#fff;border:1px solid var(--line);border-radius:16px;padding:32px 34px;margin-bottom:26px}
+.qhead{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--ink3);margin-bottom:16px;letter-spacing:.04em}
+.qhead b{color:var(--ink)}
+.qtext{font-family:"Iowan Old Style",Georgia,serif;font-size:21px;line-height:1.4;margin-bottom:18px}
+.opts{display:grid;gap:9px}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:#FCFAF6;border:1px solid var(--line);border-radius:10px;padding:12px 15px;font:inherit;font-size:15px;color:var(--ink);cursor:pointer;transition:.13s}
+.opt:hover{border-color:#C9BFAF;background:#F7F2E9}
+.opt .k{width:22px;height:22px;border-radius:6px;background:#EFE9DE;display:grid;place-items:center;font-size:12px;font-weight:800;color:var(--ink2);flex:none;margin-top:1px}
+.opt.right{background:var(--teal-soft);border-color:#9CC9BE}.opt.right .k{background:var(--teal);color:#fff}
+.opt.wrong{background:#FBEAE4;border-color:#E0A791}.opt.wrong .k{background:var(--accent);color:#fff}
+.opt:disabled{cursor:default;opacity:.95}
+.why{margin-top:16px;padding:14px 16px;background:#F7F4EE;border-left:3px solid var(--teal);border-radius:0 9px 9px 0;font-size:14.5px;display:none}
+.why.show{display:block}
+.why b{color:var(--teal)}
+.qfoot{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:14px}
+.btn{background:var(--ink);color:#fff;border:0;border-radius:9px;padding:11px 20px;font:inherit;font-size:14.5px;font-weight:600;cursor:pointer}
+.btn:hover{background:#000}
+.btn.ghost{background:transparent;color:var(--ink2);border:1px solid var(--line)}
+.btn.ghost:hover{background:#F1ECE3;color:var(--ink)}
+.qbar{height:4px;background:var(--line2);border-radius:99px;overflow:hidden;margin-bottom:22px}
+.qbar>i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.score{text-align:center;padding:14px 0}
+.score .big{font-family:"Iowan Old Style",Georgia,serif;font-size:56px;line-height:1;color:var(--accent)}
+.score .lbl{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin:10px 0 4px}
+.breakdown{display:grid;gap:7px;margin:20px 0 4px;font-size:14px;text-align:left}
+.breakdown div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line2)}
+
+.fc-stage{background:#fff;border:1px solid var(--line);border-radius:16px;padding:30px}
+.fcard{perspective:1200px;cursor:pointer;margin:8px 0 20px}
+.finner{position:relative;min-height:190px;transition:transform .5s;transform-style:preserve-3d}
+.fcard.flip .finner{transform:rotateY(180deg)}
+.fface{position:absolute;inset:0;backface-visibility:hidden;border-radius:13px;padding:26px 28px;display:flex;flex-direction:column;justify-content:center}
+.ffront{background:#FBF7EF;border:1px solid var(--line)}
+.ffront .tag{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:12px}
+.ffront .txt{font-family:"Iowan Old Style",Georgia,serif;font-size:22px;line-height:1.35}
+.fback{background:#1B1C22;color:#F3EDE2;transform:rotateY(180deg)}
+.fback .txt{font-size:15.5px;line-height:1.6}
+.fback .txt b{color:#F0B98F}
+.fnav{display:flex;gap:9px;align-items:center;justify-content:center;font-size:13.5px;color:var(--ink3)}
+.hint{text-align:center;font-size:12px;color:var(--ink3);margin-top:2px}
+
+.check{display:flex;gap:10px;align-items:center;margin-top:22px;padding-top:16px;border-top:1px solid var(--line2);font-size:13.5px;color:var(--ink2)}
+.check input{width:17px;height:17px;accent-color:var(--teal);cursor:pointer}
+.footer{padding:0 0 70px;color:var(--ink3);font-size:13px;text-align:center}
+@media(max-width:960px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:24px}
+  .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0 18px}
+  .tscroll table{min-width:560px;margin:0}
+  nav.side{position:static;display:flex;flex-wrap:wrap;gap:6px}
+  nav.side .navtitle,nav.side hr,.progress{display:none}
+  nav.side a{border:1px solid var(--line);border-left:1px solid var(--line);padding:6px 11px;background:#fff;font-size:13px}
+  .top h1{font-size:31px}
+  section.mod,.quiz,.fc-stage{padding:24px 20px}
+  .grid2{grid-template-columns:1fr}
+}
+@media print{
+  body{background:#fff}.top{background:#fff;color:#000}.top h1{color:#000}
+  nav.side,.qbar,.qfoot,.fc-stage{display:none}
+  section.mod{break-inside:avoid;box-shadow:none}
+}
+
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Consumer Behaviour &amp; Decision-Making · ESADE</div>
+    <h1>The Cram Guide: Sessions 1–3</h1>
+    <p>Everything examinable from the three decks — taught properly, then drilled. Quiz 1 is <strong>Thursday 29 October</strong> and covers Sessions 1–3.</p>
+    <div class="meta">
+      <span class="pill"><b>6</b> modules</span>
+      <span class="pill"><b>28</b> drill questions</span>
+      <span class="pill"><b>34</b> flashcards</span>
+      <span class="pill">Ordered by exam weight</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+<div class="shell">
+
+<nav class="side">
+  <p class="navtitle">Modules</p>
+  <a href="#m1"><span class="n">1</span>Heuristics &amp; biases</a>
+  <a href="#m2"><span class="n">2</span>Research questions &amp; methods</a>
+  <a href="#m3"><span class="n">3</span>Backward research &amp; qual</a>
+  <a href="#m4"><span class="n">4</span>Secondary data</a>
+  <a href="#m5"><span class="n">5</span>Measurement scales</a>
+  <a href="#m6"><span class="n">6</span>Survey design</a>
+  <hr>
+  <a href="#cheat"><span class="n">≡</span>Cheat sheet</a>
+  <a href="#drill"><span class="n">?</span>28-question drill</a>
+  <a href="#cards"><span class="n">▭</span>Flashcards</a>
+  <div class="progress">Read progress <span id="pct">0%</span><div class="bar"><i id="barfill"></i></div></div>
+</nav>
+
+<main>
+
+<section class="mod" id="m1">
+  <h2><span class="num">01</span>Heuristics &amp; biases</h2>
+  <p class="sub">Session 1 · the framing lecture. Three pricing studies, two classic biases, one conclusion.</p>
+
+  <p class="lead">The whole first session makes one argument: <strong>your intuition about consumers is a bad measurement instrument</strong>, and the reason is that people use shortcuts that produce systematic, predictable errors. Predictable is the good news — predictable errors can be studied, priced, and exploited.</p>
+
+  <h3>The two definitions you must reproduce exactly</h3>
+  <div class="grid2">
+    <div class="panel"><h4>Heuristic</h4>A mental shortcut used for quick decision-making. Efficient, usually adaptive, not itself an error.</div>
+    <div class="panel"><h4>Bias</h4>A <em>systematic</em> error in judgment that often results from these shortcuts. Systematic = it has a direction, so it can be predicted.</div>
+  </div>
+  <div class="box key"><span class="lab">Exam wording</span>
+    <p>Heuristic = the shortcut. Bias = the reliable mistake the shortcut produces. A question that offers "random error" as an option is wrong — biases are directional.</p></div>
+
+  <h3>Example 1 — Wine: when price stops signalling cost and starts signalling quality</h3>
+  <p>Ask consumers <em class="q">"If this wine costs more, would you be more or less likely to buy it?"</em> — they say <strong>less</strong>, and they are usually right. Then actually run it: vary the shelf price ($10 / $20 / $40) of a low-quality and a high-quality bottle and count purchases.</p>
+  <div class="tscroll"><table>
+    <caption>Gneezy, Gneezy &amp; Lauga (2014) — what actually happened</caption>
+    <tr><th>Measure</th><th>Low-quality wine</th><th>High-quality wine</th></tr>
+    <tr><td>Quantity bought</td><td>Falls monotonically: ~45 → ~20 → ~5</td><td><strong>Inverted U</strong>: ~72 at $10, peaks ~112 at $20, collapses to ~29 at $40</td></tr>
+    <tr><td>Liking (0–7)</td><td>Falls: 3.6 → 3.3 → 2.8</td><td><strong>Rises</strong>: 4.0 → 4.6 → 4.7</td></tr>
+    <tr><td>% saying it "fell short" of expectations</td><td><strong>Rises sharply</strong>: 20% → 40% → 50%</td><td>Flat and low: ~12% → ~10% → ~11%</td></tr>
+    <tr><td>Profit</td><td>Flat then down (~2.9 → 2.9 → 1.5)</td><td>Peaks at $20 (~18), still strong at $40 (~10)</td></tr>
+  </table></div>
+  <div class="box num"><span class="lab">Two mechanisms, don't mix them up</span>
+    <p><strong>For good wine:</strong> price is read as a quality cue, so a higher price genuinely raises experienced liking — demand peaks in the middle. Too cheap and the bottle reads as cheap.</p>
+    <p><strong>For bad wine:</strong> price raises <em>expectations</em> without raising quality, so the wine disappoints more often (20% → 50% "fell short") and repeat purchase dies.</p></div>
+  <div class="box trap"><span class="lab">Trap</span>
+    <p>The exam loves the pair "price ↑ → demand ↑". That is <em>not</em> what the study shows. It shows demand rising with price <strong>only up to a point, only when quality is genuinely high</strong>, and it shows the exact opposite for low quality. Answer "it depends on whether quality supports the price".</p></div>
+
+  <h3>Example 2 — Pricing gambles: the uncertainty effect</h3>
+  <p>Gneezy, List &amp; Wu (2006). Give people a 50/50 gamble (say $50 or $100) and ask what they would pay for it. Rational pricing says the value must sit <em>between</em> the two outcomes. It doesn't: people price the gamble <strong>below its worst certain outcome</strong> — below the sure $50.</p>
+  <div class="box key"><span class="lab">Definition</span>
+    <p><strong>Uncertainty effect:</strong> a risky prospect is valued <em>less</em> than the worst thing that can happen under it. Uncertainty itself is aversive beyond any probability weighting.</p></div>
+
+  <h3>Example 3 — Extremely high prices (Fiverr natural experiment)</h3>
+  <p>Fridman, Amir &amp; Karsten (2024). On Fiverr's "Articles &amp; Blog Posts" page one listing is visually promoted. Control promotes a $45 writer. Treatment promotes a $1,995 writer. Same page, same alternatives, one card changed.</p>
+  <p>Result: <strong>the direction flips on justifiability</strong> — if the extreme price is justifiable, purchases go <strong>down</strong>; if it is unjustifiable, purchases go <strong>up</strong>.</p>
+  <div class="box num"><span class="lab">Why this slide exists</span>
+    <p>Three lessons, all quotable: (1) existing theory may not give a clear prediction; (2) <strong>natural experiments</strong> are extremely valuable when you cannot randomise; (3) <strong>context effects</strong> — seemingly irrelevant factors in the environment shift decisions.</p></div>
+
+  <h3>Linda, and anchoring</h3>
+  <p><strong>Linda problem</strong> (Tversky &amp; Kahneman, 1983). Linda is 31, single, outspoken, bright, philosophy major, active in anti-nuclear and social-justice causes. Which is more probable: (a) Linda is a bank teller, or (b) Linda is a bank teller and active in the feminist movement? Most people pick (b).</p>
+  <div class="box key"><span class="lab">Name it</span>
+    <p><strong>Conjunction fallacy.</strong> A conjunction (A and B) can never be more probable than one of its parts. The story is <em>representative</em> of a feminist, so the richer story feels more likely — coherence beats logic.</p></div>
+  <p><strong>Anchoring bias:</strong> an initial number drags subsequent estimates toward it, even when the number is arbitrary or irrelevant. Mentioned in the deck as a companion bias to the conjunction fallacy.</p>
+
+  <div class="box key"><span class="lab">Session 1 conclusion — memorize this sentence</span>
+    <p>"We are bad at knowing when our intuitions are right and when they are wrong. We need data." Experiments reveal behaviour; natural experiments exploit the world; stated preferences are not behaviour.</p></div>
+
+  <label class="check"><input type="checkbox" data-mod="m1"> Module 1 done</label>
+</section>
+
+<section class="mod" id="m2">
+  <h2><span class="num">02</span>Research questions &amp; method fit</h2>
+  <p class="sub">Session 1 (second half) — the vocabulary that the rest of the course is built on.</p>
+
+  <p class="lead">Marketing research is "the link between the firm and the market": systematically collecting, analysing and interpreting data so decision-makers can act. The pipeline is <strong>Data → Information → Action</strong>, and only thoughtful interpretation turns the middle arrow into something useful.</p>
+
+  <h3>The three research question types</h3>
+  <div class="tscroll"><table>
+    <caption>Diagnose the question type from what the manager knows</caption>
+    <tr><th>Type</th><th>State of the problem</th><th>The deck's example</th></tr>
+    <tr><td>Exploratory</td><td>Ambiguous — you don't know what is going on</td><td>"Our sales are declining and we do not know why."</td></tr>
+    <tr><td>Descriptive</td><td>Problem is known; you need the who/what/how much</td><td>"Who is buying our products? Who is buying competitors'?"</td></tr>
+    <tr><td>Causal</td><td>Clearly defined; you need a cause–effect answer</td><td>"Will buyers purchase more in a new package?"</td></tr>
+  </table></div>
+  <p>Exploratory work develops hunches: pilot studies, focus groups, secondary data, interviewing opinion leaders. It does not test hypotheses.</p>
+
+  <h3>Primary vs secondary data — the definition that gets tested</h3>
+  <div class="grid2">
+    <div class="panel"><h4>Primary</h4>Original data collected <strong>for the specific question at hand</strong>. Focus groups, interviews, surveys, experiments.</div>
+    <div class="panel"><h4>Secondary</h4>Data collected <strong>for a different purpose</strong> than your question. Internal records, standardised data, census data.</div>
+  </div>
+  <div class="box trap"><span class="lab">Trap</span>
+    <p>The dividing line is <strong>purpose, not who collected it</strong>. A firm's own loyalty-card data is secondary if you're using it to answer a new question. "Company data = primary" is the standard wrong answer.</p></div>
+
+  <h3>Method–question fit (this table is in the slides and it is very testable)</h3>
+  <div class="tscroll"><table>
+    <caption>How appropriate is the method for this research type?</caption>
+    <tr><th>Method</th><th>Exploratory</th><th>Descriptive</th><th>Causal</th></tr>
+    <tr><td>Observe</td><td><strong>Very</strong></td><td>Somewhat</td><td>Somewhat</td></tr>
+    <tr><td>Survey</td><td>Somewhat</td><td><strong>Very</strong></td><td>Somewhat</td></tr>
+    <tr><td>Experiment</td><td>Usually not</td><td>Somewhat</td><td><strong>Very</strong></td></tr>
+  </table></div>
+
+  <h3>Observational toolkit</h3>
+  <p>Focus groups · in-depth interviews · empathic design · click path · cameras in stores. Observation is the right choice for <strong>exploratory studies</strong> (define the problem), <strong>new product development</strong> (understand a market, find gaps, test reactions), and <strong>orientation</strong> (learn the consumer's vocabulary and vantage point).</p>
+  <p><strong>Empathic design / design thinking</strong> is the formal version: observe real people in real situations to find what confuses them, what they hate, and where latent needs are unmet — then visualise, prototype, test, implement.</p>
+
+  <h3>Qualitative vs quantitative</h3>
+  <div class="tscroll"><table>
+    <tr><th>Qualitative</th><th>Quantitative</th></tr>
+    <tr><td>Unstructured, non-statistical data</td><td>Numerical data giving descriptive and/or inferential statistics</td></tr>
+    <tr><td>Usually a small number of cases</td><td>Usually more cases</td></tr>
+    <tr><td>Usually exploratory, richer understanding</td><td>Usually an action-oriented answer</td></tr>
+  </table></div>
+  <div class="box trap"><span class="lab">Trap</span>
+    <p>"Qualitative data are more time-consuming to analyse." <strong>Correct</strong> — coding open text, transcripts and field notes is slower per case than running a table of numbers. Students reverse it because quantitative <em>sounds</em> harder.</p></div>
+
+  <h3>Observation can be passive and quantitative: eye- and mouse-tracking</h3>
+  <p>Eye-tracking shows what actually gets looked at (attention ≠ stated interest). Mouse-tracking records the path and hesitation before a click, exposing conflict that a survey question would smooth over.</p>
+
+  <h3>Classic focus group mechanics (Session 1 numbers)</h3>
+  <ul>
+    <li><strong>8–12 people</strong>, <strong>90–120 minutes</strong>.</li>
+    <li>Moderator keeps the discussion open-ended but ensures the relevant topics get raised.</li>
+    <li>The report summarises what was said <em>and what was left unsaid</em>.</li>
+    <li>Group observation = same people, a room, a one-way mirror, behaviour rather than talk.</li>
+    <li>Participants come from screening interviews; usually two groups per segment; pay <strong>$75–$400 for 2 hours</strong> ("if you feed them, they will come"); avoid professional respondents.</li>
+  </ul>
+  <p><strong>Asch (1954) conformity:</strong> confederates seated in the first four positions give an obviously wrong answer about line length, and the real participant often conforms. Direct implication for research: in a group, a person holding a minority opinion is <em>less</em> likely to express it than in a one-on-one interview.</p>
+
+  <label class="check"><input type="checkbox" data-mod="m2"> Module 2 done</label>
+</section>
+
+
+<section class="mod" id="m3">
+  <h2><span class="num">03</span>Backward research, focus groups, interviews</h2>
+  <p class="sub">Session 2 · design the study from the decision backwards, then learn what qual methods can and cannot tell you.</p>
+
+  <p class="lead">The single most examinable idea in Session 2 is the word <strong>backward</strong>. Don't start with "what could we measure?" Start with "what will we do when we get the answer?" A study designed forward produces interesting numbers nobody can act on.</p>
+
+  <h3>The eight steps — and why step 1 is step 1</h3>
+  <ol>
+    <li><strong>Determine how the results will be implemented.</strong> The decision, the person, the deadline.</li>
+    <li>Diagram the final report — literally sketch the tables and charts you want to hand over.</li>
+    <li>Specify the analyses — what test answers each box of that report.</li>
+    <li>Determine what data are needed to run those analyses.</li>
+    <li>Check whether secondary data already exist.</li>
+    <li>Only then collect primary data.</li>
+    <li>Do the fieldwork.</li>
+    <li>Analysis and report.</li>
+  </ol>
+  <div class="box key"><span class="lab">The exam answer</span>
+    <p>If asked "what is the first step in designing research?", the answer is <strong>determine how the results will be implemented</strong> — not "define the sample", not "write the questionnaire". Steps 2 and 3 exist to make step 1 concrete: if you cannot draw the final chart, you do not yet know what you are studying.</p></div>
+
+  <h3>Active vs passive data collection</h3>
+  <div class="tscroll"><table>
+    <tr><th>Active</th><th>Passive</th></tr>
+    <tr><td>The subject knows they are being studied / is asked something directly. Surveys, interviews, self-reports, census.</td><td>Data captured as a by-product of something else. Scanner records, web logs, archival records, geodemographics.</td></tr>
+  </table></div>
+  <p>The distinction matters because active collection measures <em>what people say</em> and passive collection measures <em>what happened</em>. Passive data is not automatically better — it is unprotected against construct-validity problems, because nobody designed it to measure your construct.</p>
+
+  <h3>Focus groups: what goes wrong</h3>
+  <p>A focus group is a moderated group discussion, usually 8–12 people for 90–120 minutes. It is excellent for generating language, spotting unanticipated issues and watching how opinions form socially. It is weak as a measurement instrument, for six specific reasons:</p>
+  <div class="tscroll"><table>
+    <caption>The six failure modes — learn the names, they are the exam's raw material</caption>
+    <tr><th>Failure mode</th><th>What happens</th></tr>
+    <tr><td>Clever Hans effect</td><td>The horse "did arithmetic" by reading the trainer's micro-cues. Participants similarly pick up the moderator's expectations and give the answer they think is wanted — including from tone and body language.</td></tr>
+    <tr><td>Moderator effects</td><td>The moderator's own identity, warmth or bias shapes what gets said, and no two moderators run the "same" group the same way.</td></tr>
+    <tr><td>Dominant personalities</td><td>One or two talkers set the agenda; quieter participants' views never surface.</td></tr>
+    <tr><td>Majority / minority influence</td><td>Once a view is stated by several people, others conform (Asch). Minority opinions are systematically suppressed.</td></tr>
+    <tr><td>Dynamic effects</td><td>Ideas raised early anchor the rest of the session; later comments are reactions to earlier ones rather than independent views.</td></tr>
+    <tr><td>Observation changes behaviour</td><td>People do not behave naturally when they know they are watched — the same reason a one-way mirror changes what happens in the room.</td></tr>
+  </table></div>
+  <div class="box trap"><span class="lab">Trap</span>
+    <p>"Focus groups tell you what consumers actually do." False. They tell you what consumers <em>say</em>, in a social setting, in front of a moderator. The canonical proof is New Coke.</p></div>
+
+  <h3>New Coke (1985) — the case that carries the whole lecture</h3>
+  <p>Blind taste tests showed consumers preferred the new, sweeter formula to original Coke — by a clear margin, in test after test. Coca-Cola reformulated and launched it. It was a commercial catastrophe and the original was back within 79 days.</p>
+  <p>Why the tests were wrong — four reasons, all now standard:</p>
+  <ul>
+    <li><strong>Sip vs full can.</strong> Tasters had a mouthful or two. A sweeter formula wins a sip and becomes cloying over a whole can. The test measured the wrong consumption episode.</li>
+    <li><strong>The wrong counterfactual.</strong> Tasters were asked "which do you prefer?" — not "should we <em>replace</em> the old one?" Preference between two cups is a different question from losing a product you buy every week.</li>
+    <li><strong>Brand identity.</strong> Coke was "The Real Thing". The brand was continuity, not flavour. Removing the original removed the product people were loyal to.</li>
+    <li><strong>Social dynamics.</strong> Once the withdrawal was announced, anger about <em>losing</em> the old Coke exceeded any preference for the new taste — people stockpiled, protested, and formed an identity around the grievance.</li>
+  </ul>
+  <div class="box key"><span class="lab">The general lesson</span>
+    <p>Taste tests measure preference in a context stripped of brand, habit, price, availability and loss. Change any of those and the answer changes. This is also the deck's warning about <strong>expectancy effects</strong>: what you tell someone before they taste it moves what they taste.</p></div>
+  <p><strong>MROC</strong> (Marketing Research Online Community) is the modern successor: a standing online panel you can re-question quickly, cheaper than new recruitment, at the cost of self-selection and fatigue.</p>
+
+  <h3>In-depth interviews</h3>
+  <p>Semi-structured, one participant, guided by a <strong>guide</strong> (topics) plus a <strong>schedule</strong> (the exact prompts and their order). The right choice when the topic is sensitive, confidential, or socially embarrassing — the exact conditions where a group suppresses honest answers, per Asch.</p>
+  <div class="tscroll"><table>
+    <tr><th>Strengths</th><th>Costs</th></tr>
+    <tr><td>Depth, nuance, the reasoning behind a choice; safe space for sensitive topics; catches what a closed question cannot.</td><td>Expensive per respondent; slow; small n so no statistical inference; interviewer skill dominates the quality.</td></tr>
+  </table></div>
+
+  <h4>The six question-writing rules for interviews</h4>
+  <ul>
+    <li><strong>Open-ended</strong>, not yes/no.</li>
+    <li><strong>Prompt from memory</strong> rather than showing a list — a list bounds the answer space.</li>
+    <li><strong>Concrete</strong>, about a specific occasion, not "generally".</li>
+    <li><strong>Leave white space</strong> — silence is a technique; the useful sentence usually arrives after the pause.</li>
+    <li><strong>Avoid yes/no</strong> — it terminates the topic.</li>
+    <li><strong>Avoid leading</strong> questions that contain the answer.</li>
+  </ul>
+
+  <div class="box num"><span class="lab">Laddering</span>
+    <p>Ask "why?" repeatedly down the chain: attribute → functional consequence → personal value. "Why do you buy this brand?" → "it's reliable" → "why does reliable matter?" → "so I never look unprepared at work" → "why does that matter?" → "I'd feel I was failing." That last rung is the one a single question never reaches.</p>
+    <p>This is the deck's <strong>unknown unknowns</strong> point (the Rumsfeld frame): the most valuable insight is the thing the respondent could not have told you if you had asked directly, because they had never articulated it. Laddering is how you manufacture that answer.</p></div>
+
+  <label class="check"><input type="checkbox" data-mod="m3"> Module 3 done</label>
+</section>
+
+<section class="mod" id="m4">
+  <h2><span class="num">04</span>Secondary data</h2>
+  <p class="sub">Session 2 · everything you can learn without asking a single question, and the two validities it costs you.</p>
+
+  <p class="lead">Secondary data is any data collected <em>for a different purpose</em> than your question. Its economics are brutally good: cheaper, faster, often larger and more accurate than anything you could field yourself. Its cost is epistemic — you did not design the collection, so you cannot fully know what the numbers mean.</p>
+
+  <h3>The taxonomy</h3>
+  <div class="tscroll"><table>
+    <caption>Session 2's classification — matches the active/passive split from Module 3</caption>
+    <tr><th>Active</th><th>Passive</th></tr>
+    <tr><td>Census data · self-reports · surveys (collected by someone else for their own purpose)</td><td>Archival records · point-of-sale / scanner data · geodemographics · emerging tech data (mobile, search, satellite)</td></tr>
+  </table></div>
+
+  <h3>The sources worth knowing by name</h3>
+  <div class="grid2">
+    <div class="panel"><h4>Archival records</h4>Police reports, weather records, court filings, school enrolment. Free, reliable, long history — but recorded for administrative reasons, so the categories rarely match your construct.</div>
+    <div class="panel"><h4>Retail scanner / UPC data</h4>Every checkout scan records product (UPC), price paid, characteristics, exact time and any coupon used. Mergeable with shelf-placement, display and advertising data — which is what makes it powerful.</div>
+    <div class="panel"><h4>Household panel data</h4>Same households reporting purchases repeatedly: daily, longitudinal, scanner-based. Technically "active" (people do log in) but analysed as passive. Gold standard for switching and repeat-purchase questions.</div>
+    <div class="panel"><h4>Syndicated services</h4>Commercial data sold to many clients. Their value proposition is exactly three things: <strong>completeness, timeliness, accuracy</strong>.</div>
+  </div>
+  <p><strong>What scanner data is uniquely good at:</strong> promotions (including borrowing demand from future purchases — a promotion week that steals next week's sales looks like growth), display and feature effects, and separating <strong>substitutes</strong> (sales up, competitor up, category flat) from <strong>complements</strong> (sales up, partner product up, category up).</p>
+
+  <div class="box num"><span class="lab">The Chile warning-label study</span>
+    <p>Araya et al. (2022) used the phased rollout of Chile's black octagon warning labels on packaged food. Result: breakfast cereal purchases <strong>fell 6.2%</strong>; chocolates and cookies showed <strong>no statistically significant change</strong>. The lesson is twofold — labels moved the category that had a plausible substitute (cereal has "healthy" alternatives; cookies don't pretend to) and, more importantly, a policy-relevant natural experiment was answerable <em>without collecting any new data</em>, because the purchase records already existed.</p></div>
+
+  <h3>Geodemographics, and the modern passive sources</h3>
+  <p><strong>Geodemographics</strong> classifies neighbourhoods by the characteristics of the people who live there — the deck's phrase is <em>"birds of a feather flock together"</em>. Postcode-level profiling predicts consumption, media habits and risk far better than chance, because residential sorting is real. It is also the classic ethical flashpoint: it infers individual traits from where someone lives.</p>
+  <ul>
+    <li><strong>Harari et al. (2016)</strong> — mobile phone data used to predict personality traits from usage patterns.</li>
+    <li><strong>Long, Chen &amp; Rohla (2020)</strong> — Hurricane Irma evacuation behaviour reconstructed from mobility data, aggregated by voting precinct, which exposed politically patterned evacuation.</li>
+    <li><strong>Search data</strong> — revealed interest at scale, in real time, before any purchase happens.</li>
+  </ul>
+
+  <h3>The two validities you pay for — this is the examinable core of the module</h3>
+  <div class="grid2">
+    <div class="panel"><h4>Construct validity — threatened by proxies</h4>You wanted a construct ("brand loyalty", "health consciousness") and you got a proxy ("repeat purchase", "cereal bought"). The proxy may correlate for reasons unrelated to the construct — people repeat-buy because of shelf position, not loyalty. And you have <strong>no knowledge of how the data were collected</strong>, so measurement error is invisible to you.</div>
+    <div class="panel"><h4>Internal validity — threatened by causation</h4>Secondary data is observational. Cereal sales fell after labels appeared; they also fell because of price, income, seasonality, a competitor launch, or a trend already underway. Without randomisation or a credible natural experiment, you cannot rule those out — so you cannot claim cause.</div>
+  </div>
+
+  <div class="tscroll"><table>
+    <caption>The trade-off, in one table</caption>
+    <tr><th>Advantages</th><th>Disadvantages</th></tr>
+    <tr><td>Cheaper and faster</td><td>No knowledge of how the data were collected</td></tr>
+    <tr><td>Often more accurate (census coverage, no self-report bias)</td><td>Proxy measures → weak <strong>construct validity</strong></td></tr>
+    <tr><td>Historical — you can go back before your question existed</td><td>Hard to establish causation → weak <strong>internal validity</strong></td></tr>
+    <tr><td>The only feasible route when primary collection is too costly or unethical</td><td>Categories rarely fit your question exactly; no control over what was asked</td></tr>
+  </table></div>
+
+  <div class="box trap"><span class="lab">Trap</span>
+    <p>"Secondary data is less accurate than primary data." Wrong as a general claim — a national census is more accurate than your 200-person online panel. Secondary data's weakness is <strong>fit</strong> (construct validity) and <strong>causal identification</strong> (internal validity), not raw accuracy. If a question asks what secondary data threatens, answer with those two words.</p></div>
+
+  <label class="check"><input type="checkbox" data-mod="m4"> Module 4 done</label>
+</section>
+
+
+<section class="mod" id="m5">
+  <h2><span class="num">05</span>Measurement scales</h2>
+  <p class="sub">Session 2 (end) into Session 3 &middot; the smallest topic in the deck and the easiest marks on the paper.</p>
+
+  <p class="lead">A scale is not a formatting choice. <strong>The scale type decides which statistics are legal.</strong> Run a mean on a nominal variable and you have not made a small error &mdash; you have reported a number that means nothing.</p>
+
+  <div class="tscroll"><table>
+    <caption>The four scale types, and what you may do with each</caption>
+    <tr><th>Type</th><th>What it is</th><th>Permitted</th><th>Cost</th></tr>
+    <tr><td>Categorical (nominal)</td><td>Labels only, no order &mdash; brand chosen, gender, yes/no</td><td>Frequencies, percentages, mode, chi-square</td><td>Least information; weakest statistical power</td></tr>
+    <tr><td>Ordinal</td><td>Ordered, unequal gaps &mdash; rankings, "rank 1&ndash;5"</td><td>Median, percentiles, rank tests</td><td>Forces trade-offs; analysis gets complicated</td></tr>
+    <tr><td>Bi-polar continuous</td><td>Two opposite poles with a real zero point in the middle &mdash; dislike &minus;3 &hellip; +3 like</td><td>Mean, SD, t-test, regression</td><td>Requires that the midpoint is meaningful</td></tr>
+    <tr><td>Uni-polar continuous</td><td>Zero means <em>absence of the attribute</em> &mdash; income, temperature, hours</td><td>Mean, SD, t-test, regression</td><td>Cannot be negative by construction</td></tr>
+  </table></div>
+
+  <div class="box key"><span class="lab">The bi-polar / uni-polar test</span>
+    <p>Ask: <strong>does zero mean "none of it" or "the middle"?</strong> Zero hours of TV = no TV at all &rarr; uni-polar. Zero on a &minus;3 to +3 liking scale = neither like nor dislike &rarr; bi-polar. This single question answers most exam items.</p></div>
+
+  <h3>Itemized scales &mdash; the design rules</h3>
+  <ul>
+    <li><strong>4 to 11 categories.</strong> Fewer loses resolution; more than ~11 and respondents stop discriminating.</li>
+    <li><strong>Label every point if you have good labels</strong> &mdash; partially-labelled scales leave respondents guessing what the middle numbers mean, and they guess differently from each other.</li>
+    <li><strong>Numbers imply equal spacing and valence.</strong> "1&ndash;10" tells the respondent the steps are equally far apart and that higher is more of the thing. If that is not true of your construct, do not number it.</li>
+    <li><strong>Decide deliberately about a neutral point and a "don't know".</strong> Force a side and you manufacture opinions; offer "don't know" and some respondents hide there.</li>
+  </ul>
+
+  <div class="box num"><span class="lab">Drill these four identifications until automatic</span>
+    <p><strong>"How likely are you to buy pizza tomorrow, 0&ndash;10?"</strong> &rarr; uni-polar continuous (0 = no chance at all).<br>
+    <strong>"Which is your favourite Coke &mdash; Classic / Zero / Diet / Light?"</strong> &rarr; categorical.<br>
+    <strong>"Do you own a car? Yes / No"</strong> &rarr; categorical (a two-category nominal scale, not ordinal).<br>
+    <strong>"How much do you like the new design? &minus;3 (dislike) to +3 (like)"</strong> &rarr; bi-polar continuous.</p></div>
+
+  <h3>Open-ended vs closed questions</h3>
+  <div class="tscroll"><table>
+    <caption>The comparison the deck puts on one slide</caption>
+    <tr><th>Open-ended wins on</th><th>Closed wins on</th></tr>
+    <tr><td>Easier to avoid leading the respondent</td><td>Less pre-testing needed</td></tr>
+    <tr><td>Out-of-the-box answers you did not anticipate</td><td>Less effort for the respondent</td></tr>
+    <tr><td>Discovering the vocabulary and the unknowns</td><td>Lower cost, easier to analyse, jogs memory with the options</td></tr>
+  </table></div>
+  <p>Rough rule: open when you do not yet know the answer space; closed when you do and need to count it.</p>
+
+  <div class="box trap"><span class="lab">Trap</span>
+    <p>Students call a 1&ndash;5 "strongly disagree / strongly agree" item <em>ordinal</em> and then refuse to compute a mean. The deck treats adequately-labelled multi-point rating scales as <strong>continuous</strong> and permits means and t-tests. What it does <em>not</em> permit is a mean on a categorical variable &mdash; averaging brand codes is the error being tested.</p></div>
+
+  <p class="sub" style="margin-top:22px"><strong>Beyond the slides (flagged, not examinable from these three decks):</strong> Session 3's outline promises a slide on validity and reliability that the deck never delivers. The usable version: <em>reliability</em> = the scale gives the same answer on repeat measurement; <em>validity</em> = it measures the construct you claim. Reliable but invalid is a scale that consistently measures the wrong thing. If the exam asks, this is the definition to give &mdash; but check whether your lecturer covered it in class.</p>
+
+  <label class="check"><input type="checkbox" data-mod="m5"> Module 5 done</label>
+</section>
+
+<section class="mod" id="m6">
+  <h2><span class="num">06</span>Survey design</h2>
+  <p class="sub">Session 3 &middot; the biggest single topic, and the one where most of the marks live.</p>
+
+  <p class="lead">The governing principle of the whole session: <strong>garbage in, garbage out.</strong> A survey is an instrument, and every wording choice, every scale, every ordering decision is a measurement decision. Respondents are busy, distracted, bored, unmotivated and tired &mdash; which is why the early questions get the most attention and dropouts answered only those.</p>
+
+  <h3>A&ndash;F: the six wording rules</h3>
+  <div class="tscroll"><table>
+    <caption>Learn the fault, not just the rule &mdash; exam items are "name the flaw"</caption>
+    <tr><th>Rule</th><th>The broken example from the slides</th></tr>
+    <tr><td><strong>A</strong> Simple, consistent language</td><td>Academic vocabulary, jargon, shifting register mid-questionnaire</td></tr>
+    <tr><td><strong>B</strong> Avoid leading questions</td><td><em class="q">"How difficult was it to get in to your business school?"</em> &mdash; <strong>leading</strong>: it presupposes that it was difficult, so the respondent's only job is to pick a degree</td></tr>
+    <tr><td><strong>C</strong> Avoid ambiguity</td><td><em class="q">"Are you physically able to do things like run and swim?"</em> &mdash; <strong>ambiguous</strong>: "things like" has no boundary</td></tr>
+    <tr><td><strong>D</strong> Avoid double-barrelled questions</td><td><em class="q">"Are you rich and famous?"</em> and <em class="q">"Was the war in Afghanistan and Iraq justified?"</em> &mdash; <strong>double-barrelled</strong>: two questions, one answer box</td></tr>
+    <tr><td><strong>E</strong> Avoid double negatives</td><td><em class="q">"I do not feel uncomfortable&hellip;"</em> &mdash; <strong>double negative</strong>: the respondent has to invert, and some will not</td></tr>
+    <tr><td><strong>F</strong> Mutually exclusive, collectively exhaustive options</td><td>Overlapping income bands; missing "none of these"; no "prefer not to say"</td></tr>
+  </table></div>
+
+  <h3>Framing: identical facts, opposite decisions</h3>
+  <p>Three demonstrations, all worth memorising with their numbers.</p>
+  <div class="grid2">
+    <div class="panel"><h4>Asian disease</h4>400 people will die. <em>Gain frame</em> ("200 will be saved") &rarr; choose the certain option, <strong>risk-averse</strong>. <em>Loss frame</em> ("400 will die") &rarr; gamble, <strong>risk-seeking</strong>. Same outcome, flipped preference.</div>
+    <div class="panel"><h4>Loaded question</h4>"Allow" a rally vs "forbid" it: <strong>56% / 44%</strong> allow, but when the identical policy is put as a ban, only <strong>22% / 78%</strong>. The verb in the question sets the reference point.</div>
+  </div>
+  <div class="box num"><span class="lab">Two more you will be asked to identify</span>
+    <p><strong>Implicit reference:</strong> "Is traffic in your city getting worse?" asked traffic-first vs industry-first gives <strong>45 / 32</strong> versus <strong>24 / 57</strong> &mdash; whatever you asked about first becomes the standard of comparison.</p>
+    <p><strong>Vibrating alarm:</strong> a feature described as costing <strong>$13.34 more</strong> vs <strong>$60.93 less</strong> changes uptake purely on the direction of the price comparison.</p></div>
+
+  <h3>Series of scales &mdash; where questionnaires quietly break</h3>
+  <ul>
+    <li><strong>Missing N/A.</strong> If the behaviour does not apply to some respondents, they will invent an answer rather than skip.</li>
+    <li><strong>Reverse coding.</strong> Mix positively and negatively worded items to break response sets. Consequence: you <em>must</em> recode before analysis, or your means are nonsense. This is why "reverse coding exists" and "reverse coding must be undone" are two separate exam points.</li>
+    <li><strong>Midpoint misuse.</strong> A midpoint means "neither / no opinion" only if you told respondents so; otherwise it absorbs the lazy and the indifferent alike.</li>
+  </ul>
+
+  <div class="box key"><span class="lab">Response scale effect (Schwarz et al., 1985) &mdash; the sharpest result in the session</span>
+    <p>Reporting more than 2.5 hours of TV a day: <strong>16%</strong> on a low-frequency scale, <strong>38%</strong> on a high-frequency scale. The behaviour did not change; the ruler did. Second half of the same finding: respondents who had just used a <strong>$0&ndash;$500</strong> savings scale inferred they were relatively wealthy; those given a <strong>$0&ndash;$500,000</strong> scale inferred they were poor.</p></div>
+
+  <div class="box trap"><span class="lab">Trap</span>
+    <p>Students answer "response scale effects are a form of sampling error". No &mdash; they are <strong>measurement</strong> error caused by the instrument, and they are systematic, so they bias the estimate in a predictable direction rather than adding noise.</p></div>
+
+  <h3>The six-step questionnaire process</h3>
+  <ol>
+    <li>Define the <strong>sample</strong> and the mode.</li>
+    <li>Define the <strong>bits</strong> of information you need.</li>
+    <li><strong>Draft the questions.</strong></li>
+    <li>Decide <strong>ordering and randomisation</strong>.</li>
+    <li>Hunt <strong>traps</strong>, then <strong>validate</strong>.</li>
+    <li><strong>Pretest</strong> and implement.</li>
+  </ol>
+  <p>The backward check that governs all six: before writing anything, ask <em class="q">"What would I do with the answer?"</em> If nothing changes on any answer, delete the question.</p>
+
+  <h3>When open-ended is worth the cost</h3>
+  <p>Three legitimate uses: (1) as the <strong>main dependent variable</strong> &mdash; coded with a codebook and multiple coders, or with topic modelling (Zhang, Li &amp; Allenby, 2024); (2) to get <strong>elaboration and unknown unknowns</strong> &mdash; the things you did not know to offer as an option; (3) <strong>feedback</strong>. The costs are real: hard to analyse, hard for the respondent to answer, slow to field.</p>
+
+  <h3>Defaults are a design decision</h3>
+  <p>Organ-donor registration (Johnson &amp; Goldstein, 2004): opt-in countries sit near 15&ndash;20%, opt-out countries near 90%+. Nobody re-expresses a preference &mdash; the default does the choosing. If your question has a pre-selected answer, you have written a policy, not a measurement.</p>
+
+  <h3>Sensitive questions</h3>
+  <p>Asking about the illegal, the embarrassing or the socially judged produces three failures: <strong>item nonresponse</strong> (skip it), <strong>termination</strong> (quit the survey), and <strong>distortion</strong> (answer what is socially acceptable). The bias runs <strong>downward</strong> on stigmatised behaviour &mdash; people under-report.</p>
+  <div class="grid2">
+    <div class="panel"><h4>Fixes that work</h4><strong>Rapport</strong> first &middot; a <strong>counter-biasing statement</strong> that normalises the behaviour ("a man often uses his wife's hair spray&hellip;") &middot; the <strong>other-people approach</strong> &mdash; ask what "people you know" do, then infer.</div>
+    <div class="panel"><h4>The number that proves it</h4>Netherlands cannabis use: <strong>5.1%</strong> direct question vs <strong>17.4%</strong> via the other-people approach &mdash; and the higher figure was corroborated by <strong>sewage testing</strong> (Gregori, De Jong &amp; Pieters, 2023).</div>
+  </div>
+
+  <h3>Ordering effects</h3>
+  <ul>
+    <li><strong>Demographics go at the end.</strong> Asking identity questions first triggers <strong>stereotype threat</strong> (Shih, Pittinsky &amp; Ambady, 1999) and contaminates every answer that follows.</li>
+    <li><strong>General before specific.</strong> Strack, Martin &amp; Schwartz (1988): asking about dating after a general life-satisfaction item correlates <strong>r = .66</strong>; asking it first gives <strong>r = &minus;.01</strong>. Same two questions, opposite conclusion.</li>
+    <li><strong>Response substitution</strong> (Gal &amp; Rucker, 2011): a fondue set rated for "Anne" vs "Jane" is rated differently &mdash; respondents answer the question they can answer, not the one you asked.</li>
+    <li><strong>Question difficulty drives the answer.</strong> "List 3 ways you are happy" vs "list 12": the easy task produces <em>higher</em> reported happiness, because fluency is read as evidence.</li>
+  </ul>
+
+  <h3>Layout, branching, and the ordering template</h3>
+  <p>Keep the response options in a <strong>monotonic order</strong> (low to high). Never open with the sensitive or the boring. Put open-ended last. The deck's template: <strong>intro &rarr; most important &rarr; qualifying questions &rarr; demographics &rarr; open-ended</strong>. Branching: <strong>keep it simple</strong>, and always capture the screening variables so you know who was routed where.</p>
+
+  <h3>Traps for bad respondents, and the pretest</h3>
+  <ul>
+    <li><strong>Bots</strong> are now a normal threat in online fieldwork.</li>
+    <li><strong>Entry screeners:</strong> captcha, IP screening, comprehension checks.</li>
+    <li><strong>Trap questions</strong> ("select the third option") and <strong>attention checks</strong>, often with multiple versions of the instrument.</li>
+    <li><strong>Pretest criteria:</strong> does each question mean what you think (meaning), can people answer it (task difficulty), do they stay engaged (interest/attention), and is there variation in the answers? And: <strong>take your own survey</strong> before fielding it.</li>
+  </ul>
+  <p><strong>Respondents and modes.</strong> Free respondents (customers, networks, volunteers) vs paid (ads, panels &mdash; dedicated panels vs generic pools such as MTurk). Modes: in-person, mail, phone, internet. Each swaps cost against coverage and control.</p>
+
+  <label class="check"><input type="checkbox" data-mod="m6"> Module 6 done</label>
+</section>
+
+<section class="mod" id="cheat">
+  <h2><span class="num">≡</span>The cheat sheet</h2>
+  <p class="sub">Read this last, tomorrow morning, and once in the corridor.</p>
+
+  <div class="grid2">
+    <div class="panel"><h4>If you remember only six things</h4>
+      <ol style="margin:0;padding-left:18px">
+        <li>Heuristic = shortcut. Bias = <em>systematic</em> error from it. Directional, therefore predictable.</li>
+        <li>Price signals quality <em>only when quality supports it</em>. Good wine peaks mid-price; bad wine dies at any price rise.</li>
+        <li>Question type is diagnosed from the manager's state of knowledge: ambiguous → exploratory, who/what → descriptive, cause → causal.</li>
+        <li>Primary vs secondary is about <strong>purpose</strong>, not ownership.</li>
+        <li>Scale type sets which statistics you may run.</li>
+        <li>Most bad survey questions are bad in one of six nameable ways. Name the way.</li>
+      </ol>
+    </div>
+    <div class="panel"><h4>The three-sentence summary of the course so far</h4>
+      <p style="margin:0 0 8px">Consumers use shortcuts, so their stated reasons cannot be trusted — you need data, ideally behavioural data.</p>
+      <p style="margin:0 0 8px">How you collect that data is a design decision: start from the decision you need to make and work backwards.</p>
+      <p style="margin:0">Whatever you collect, the measuring instrument (scale, wording, order) is part of the finding, not a neutral pipe.</p>
+    </div>
+  </div>
+
+  <h3>Numbers that get tested</h3>
+  <div class="tscroll"><table>
+    <caption>If a number appears in an option, it is usually because it appeared in a slide</caption>
+    <tr><th>Number</th><th>What it belongs to</th></tr>
+    <tr><td>8–12 people · 90–120 min · $75–400</td><td>Focus group size, length, and incentive for 2 hours</td></tr>
+    <tr><td>$10 / $20 / $40</td><td>Wine price levels; peak demand and peak profit at <strong>$20</strong> for the good bottle</td></tr>
+    <tr><td>~72 → ~112 → ~29</td><td>Quantity bought, high-quality wine: the inverted U</td></tr>
+    <tr><td>20% → 40% → 50%</td><td>"Fell short of expectations", low-quality wine: expectations rising without quality</td></tr>
+    <tr><td>$45 vs $1,995</td><td>Fiverr promoted listing, control vs treatment</td></tr>
+    <tr><td>4–11</td><td>Recommended number of categories in an itemized scale</td></tr>
+    <tr><td>16% vs 38%</td><td>Reporting &gt;2.5 hrs TV, low- vs high-frequency response scale</td></tr>
+    <tr><td>56/44 vs 22/78</td><td>"Allow" vs "forbid" — the loaded question</td></tr>
+    <tr><td>45/32 vs 24/57</td><td>Traffic-first vs industry-first — implicit reference point</td></tr>
+    <tr><td>−.01 vs .66</td><td>General-then-specific vs specific-then-general (life satisfaction × dating)</td></tr>
+    <tr><td>5.1% vs 17.4%</td><td>Direct vs other-people approach on sensitive behaviour</td></tr>
+    <tr><td>−6.2%</td><td>Chile warning labels: breakfast cereal purchases; chocolates and cookies, no significant change</td></tr>
+    <tr><td>$13.34 vs $60.93</td><td>Vibrating alarm: more vs less willingness to pay depending on gain/loss framing</td></tr>
+  </table></div>
+
+  <h3>Studies, one line each</h3>
+  <div class="tscroll"><table>
+    <tr><th>Study</th><th>One-line claim you can defend</th></tr>
+    <tr><td>Gneezy, Gneezy &amp; Lauga (2014)</td><td>Price is a quality signal only where quality can carry it; otherwise price buys expectations and sells disappointment.</td></tr>
+    <tr><td>Gneezy, List &amp; Wu (2006)</td><td>Uncertainty effect: a gamble is priced below its worst certain outcome.</td></tr>
+    <tr><td>Fridman, Amir &amp; Karsten (2024)</td><td>Extreme prices flip sign on justifiability; natural experiments are how you find that out.</td></tr>
+    <tr><td>Tversky &amp; Kahneman (1983)</td><td>Conjunction fallacy — a richer story feels likelier than its own subset.</td></tr>
+    <tr><td>Asch (1954)</td><td>Conformity: group pressure suppresses minority views, so 1:1 beats the room for sensitive opinions.</td></tr>
+    <tr><td>New Coke</td><td>Taste is not the product; sip tests miss consumption context, brand meaning, and the anger of withdrawal.</td></tr>
+    <tr><td>Araya et al. (2022)</td><td>Chilean warning labels cut cereal purchases 6.2%; no significant effect on chocolates or cookies.</td></tr>
+    <tr><td>Johnson &amp; Goldstein (2004)</td><td>Defaults: opt-in vs opt-out moves organ donation rates more than any persuasion campaign.</td></tr>
+    <tr><td>Schwarz et al. (1985)</td><td>The response scale is part of the measurement — 16% vs 38% on the same behaviour.</td></tr>
+    <tr><td>Strack, Martin &amp; Schwarz (1988)</td><td>Question order sets the reference frame: r = −.01 vs r = .66.</td></tr>
+    <tr><td>Shih, Pittinsky &amp; Ambady (1999)</td><td>Stereotype threat — identity made salient before a task changes performance, which is why demographics go last.</td></tr>
+    <tr><td>Gregori, De Jong &amp; Pieters (2023)</td><td>The other-people approach (5.1% → 17.4%) is corroborated by sewage testing.</td></tr>
+  </table></div>
+
+  <h3>Answer templates for the written part</h3>
+  <div class="box key"><span class="lab">Use these sentence shapes</span>
+    <p><strong>Name the bias:</strong> "This is the <em>[bias]</em>: the consumer's judgment is pulled in a consistent direction, because <em>[mechanism]</em>. Observed result would be <em>[direction]</em>."</p>
+    <p><strong>Name the question flaw:</strong> "This item is <em>[double-barrelled / leading / ambiguous / double negative / not MECE]</em> because <em>[the two things / the presupposition / the two readings]</em>. Rewrite: <em>[single-barrelled, neutral version]</em>."</p>
+    <p><strong>Name the study design:</strong> "Given the manager knows <em>[state of knowledge]</em>, this is a <em>[type]</em> question, so <em>[method]</em> is appropriate and <em>[method]</em> is not, because <em>[fit]</em>."</p>
+  </div>
+</section>
+
+<section class="quiz" id="drill">
+  <div class="qhead"><span>Drill · <span id="qlab">question</span> <b id="qnum">1 of 28</b></span><span id="qscore">Score 0 / 0</span></div>
+  <div class="qbar"><i id="qbarfill"></i></div>
+
+  <div id="quizbody">
+    <div class="qtext" id="qtext"></div>
+    <div class="opts" id="qopts"></div>
+    <div class="why" id="qwhy"></div>
+    <div class="qfoot">
+      <button class="btn ghost" id="qprev">‹ Back</button>
+      <button class="btn ghost" id="qskip">Skip</button>
+    </div>
+  </div>
+
+  <div id="qresult" style="display:none"></div>
+</section>
+
+<section class="fc-stage" id="cards">
+  <div class="qhead"><span>Flashcards · <b id="cnum">1 of 34</b></span><span id="ctag">Term</span></div>
+  <div class="fcard" id="fcard">
+    <div class="finner">
+      <div class="fface ffront"><div class="tag" id="cface">Term</div><div class="txt" id="cfront"></div></div>
+      <div class="fface fback"><div class="txt" id="cback"></div></div>
+    </div>
+  </div>
+  <div class="fnav">
+    <button class="btn ghost" id="cprev">‹ Prev</button>
+    <button class="btn ghost" id="cflip">Flip</button>
+    <button class="btn ghost" id="cnext">Next ›</button>
+  </div>
+  <p class="hint">Click the card or press <b>space</b> to flip · <b>←</b> <b>→</b> to move</p>
+</section>
+
+</main>
+</div>
+</div>
+
+<div class="wrap"><div class="footer">Built from the Session 1–3 decks · Consumer Behaviour &amp; Decision-Making, ESADE · Quiz 1, Thursday 29 October</div></div>
+
+<script>
+const QUIZ=[
+{"m":"Module 1","q":"In Gneezy, Gneezy &amp; Lauga (2014), purchases of the <b>high-quality</b> wine across the $10 / $20 / $40 shelf prices followed which pattern?","o":["An inverted U: it rose to a peak at $20, then fell sharply at $40","It fell monotonically as price rose","It rose monotonically — higher price always sold more","It was flat: price had no effect on quantity"],"a":0,"w":"High quality peaks mid-price (~72 → ~112 → ~29). At $10 the bottle reads as cheap, so the quality signal is wasted; at $40 too few buyers will pay. Only the <i>middle</i> price lets price signal quality without killing demand."},
+{"m":"Module 1","q":"For the <b>low-quality</b> wine, the share saying it 'fell short of expectations' rose 20% → 40% → 50%. What does this show?","o":["Consumers have no price expectations for cheap products","Liking also rose with price, but people were unwilling to admit it","Higher price raised expectations without raising quality, so the wine disappointed more often","The result is measurement error — expectations cannot be measured"],"a":2,"w":"This is the mirror image of the good-wine result. Price buys <i>expectations</i> in both cases, but only buys <i>experienced quality</i> when the product can deliver. Liking actually <b>fell</b> for the low-quality wine (3.6 → 3.3 → 2.8)."},
+{"m":"Module 1","q":"A 50/50 gamble pays either $50 or $100. Participants price it <b>below $50</b>. This is:","o":["The uncertainty effect: a risky prospect valued below its worst certain outcome","Risk aversion — a normal discount for risk","Anchoring on the lower outcome","The conjunction fallacy"],"a":0,"w":"The uncertainty effect (Gneezy, List &amp; Wu 2006) is stronger than ordinary risk aversion: pricing below the <i>worst possible</i> outcome cannot be explained by probability weighting at all. Uncertainty itself is aversive."},
+{"m":"Module 1","q":"Most people judge 'Linda is a bank teller and active in the feminist movement' as more probable than 'Linda is a bank teller'. Name the bias.","o":["Anchoring","Availability heuristic","Conjunction fallacy","Base-rate neglect"],"a":2,"w":"A conjunction (A and B) can never exceed the probability of A alone. The richer, more <i>representative</i> story feels likelier — coherence beats logic. Tversky &amp; Kahneman (1983)."},
+{"m":"Module 1","q":"Which statement correctly separates a heuristic from a bias?","o":["A heuristic is an error; a bias is the shortcut that produces it","Both are random errors, but heuristics are conscious","A heuristic is a mental shortcut; a bias is a systematic error in judgment that often results from such shortcuts","A bias is a shortcut; a heuristic is the error it produces"],"a":2,"w":"Shortcut = heuristic. The <i>systematic</i> (directional, therefore predictable) error it produces = bias. Because biases have a direction, they can be measured, priced and exploited — that is the whole argument of Session 1."},
+{"m":"Module 2","q":"A manager says: 'Our sales are declining and we do not know why.' Which research type is this?","o":["Descriptive","Causal","Conclusive","Exploratory"],"a":3,"w":"Ambiguity — you cannot yet name the problem — is the signature of exploratory research. Descriptive work assumes the problem is known and asks who/what/how much; causal work asks whether X changes Y."},
+{"m":"Module 2","q":"'Will buyers purchase more of our product in a new package?' Which method is <b>most</b> appropriate?","o":["Observation","A survey","A focus group","An experiment"],"a":3,"w":"This is a causal question, and the method–fit table rates experiments as <b>Very</b> appropriate for causal and 'Usually not' for exploratory. Observation and surveys are only 'Somewhat' fit for causal claims because neither isolates the cause."},
+{"m":"Module 2","q":"What does Asch (1954) imply for choosing between a focus group and a one-on-one interview?","o":["Groups are better because more opinions surface","A person with a minority opinion is less likely to voice it in a group, so 1:1 is safer for sensitive or non-mainstream views","Interviews are unreliable because there is no social pressure to be truthful","Group size does not affect what people say"],"a":1,"w":"Confederates giving an obviously wrong answer pull real participants toward conformity. The research-design implication: group pressure suppresses minority positions, so use depth interviews when the opinion is unpopular, sensitive or confidential."},
+{"m":"Module 2","q":"Your firm's own loyalty-card transaction data is used to answer a brand-new question about a planned promotion. That data is:","o":["Primary, because the firm collected it","Primary, because it is behavioural rather than self-reported","Secondary, because it was collected for a different purpose","Neither — internal records are not market research"],"a":2,"w":"The line is <b>purpose, not ownership</b>. Collected for another purpose = secondary. 'The company collected it, so it's primary' is the standard trap answer."},
+{"m":"Module 3","q":"In backward research design, what is the <b>first</b> step?","o":["Diagram the final report","Determine how the results will be implemented","Collect the primary data","Specify the analyses"],"a":1,"w":"Start from the decision, not the data. Determine how the results will be used, <i>then</i> diagram the final report, specify analyses, decide what data are needed, check secondary sources, collect primary data, do fieldwork, and analyse."},
+{"m":"Module 3","q":"New Coke won blind taste tests but failed in market. What is the correct lesson?","o":["Consumers cannot reliably taste the difference between colas","Taste tests are useless for any product decision","The launch failed only because of poor advertising","A sip test misses consumption context, brand meaning, and the anger of losing the original"],"a":3,"w":"Three failures at once: sip ≠ full can (context), tasters were not told it would <b>replace</b> the original (a different question), and 'The Real Thing' was brand identity. The withdrawal anger outweighed any taste preference — so the study measured the wrong thing, not the wrong consumers."},
+{"m":"Module 3","q":"A moderator unconsciously nods and smiles at one kind of answer, and the group converges on it. This is:","o":["Social desirability bias","The halo effect","The Clever Hans effect","The dominance effect"],"a":2,"w":"Clever Hans: the questioner unintentionally cues the desired response, so the data reflect the moderator's expectations. Companion failure modes: moderator effects, dominant personalities, majority/minority influence, dynamic effects (early ideas stick), and people not behaving naturally when observed."},
+{"m":"Module 3","q":"'Why do you want that?' asked four times in a row, each time on the previous answer, is called:","o":["Projective questioning","Laddering","Funnelling","Protocol analysis"],"a":1,"w":"Laddering climbs from attributes to consequences to values, and its payoff is <b>unknown unknowns</b> — reasons the respondent could not have listed unprompted. It is the workhorse of semi-structured depth interviews (guide + schedule)."},
+{"m":"Module 4","q":"Retail scanner (UPC) data captured automatically at checkout is best classified as:","o":["Active collection, because a person physically buys the product","Passive collection, because the subject does not knowingly report anything","Primary data, because it is collected in real time","Qualitative data, because it records what happened rather than why"],"a":1,"w":"Active means the subject knows data are being collected (census, survey, self-report). Scanner data are recorded as a by-product of the transaction — passive. Note the boundary case from the deck: household panel data are <i>technically</i> active because panellists consented and report."},
+{"m":"Module 4","q":"The two validity threats that secondary data most typically create are:","o":["Construct validity (the proxy does not measure your construct) and internal validity (hard to establish causation)","External validity and statistical power","Reliability and sampling error","Content validity and test–retest reliability"],"a":0,"w":"You did not design the collection, so you must argue that a proxy variable means what you need it to mean (construct), and that you can rule out confounds (internal). Raw accuracy is often <i>better</i> than your own survey — a census beats a 200-person panel."},
+{"m":"Module 4","q":"'Birds of a feather flock together' — classifying neighbourhoods by the consumption patterns of their residents — describes:","o":["A household panel","Syndicated panel data","Scanner data","Geodemographics"],"a":3,"w":"Geodemographics links where people live to how they consume. It is passive, secondary and powerful for targeting, but the inference is area-level, so it can be wrong about any individual."},
+{"m":"Module 4","q":"Araya et al. (2022) on Chile's warning labels found:","o":["Purchases fell across every category studied","Breakfast cereal purchases fell about 6.2%; chocolates and cookies showed no significant change","Purchases rose because labels increased attention","No measurable effect on any category"],"a":1,"w":"A selective effect, not a blanket one: −6.2% for cereals, nothing significant for chocolates or cookies. The examinable point is that a policy can work on some categories and not others — which is why you need category-level data."},
+{"m":"Module 5","q":"'How likely are you to buy this product, 0 to 10?' — what scale type is this?","o":["Categorical","Ordinal","Bi-polar continuous","Uni-polar continuous"],"a":3,"w":"Zero means the genuine <b>absence</b> of the property (no likelihood at all), so the scale is uni-polar. Contrast with a −3…+3 like/dislike scale, where zero is indifference and the scale runs in two directions."},
+{"m":"Module 5","q":"'Which of these do you drink most often? Circle one: Coke / Diet Coke / Coke Zero / Other' — scale type?","o":["Bi-polar continuous","Ordinal","Categorical (nominal)","Uni-polar continuous"],"a":2,"w":"Named, unordered options = categorical. You may report frequencies and run a chi-square; you may not compute a mean. Categorical measures sit closest to real choice but carry the least statistical power."},
+{"m":"Module 5","q":"'Rate your feelings toward the brand from −3 (dislike very much) to +3 (like very much), with 0 = neither.' This is:","o":["Uni-polar continuous","Bi-polar continuous","Ordinal","Categorical"],"a":1,"w":"The scale runs in two directions from a meaningful midpoint of indifference — that is bi-polar. Uni-polar would start at zero = absence and run one way only (income, temperature, likelihood)."},
+{"m":"Module 5","q":"Why does scale type matter so much in an exam answer?","o":["It determines how many respondents you need","It determines which summaries and tests are permissible — means for continuous, frequencies and chi-square for categorical","It only affects how the question looks","It determines whether the data are primary or secondary"],"a":1,"w":"Scale type is a licence for statistics. Continuous data permit mean, standard deviation and t-tests; categorical data permit frequencies and chi-square only; ordinal permits medians and non-parametrics. Reporting a mean of a nominal variable is the classic error."},
+{"m":"Module 6","q":"'Do you consider yourself rich and famous?' What is wrong?","o":["It is leading","It is not MECE","It contains a double negative","It is double-barrelled — it asks two things that can have different answers"],"a":3,"w":"Double-barrelled: rich and famous are separate attributes, and a respondent can be one without the other. Split it into two items, or ask the one thing you actually need."},
+{"m":"Module 6","q":"'How difficult was it to get in to your business school?' What is the primary flaw?","o":["It is leading — it presupposes the process was difficult","It is ambiguous","It is double-barrelled","It uses a double negative"],"a":0,"w":"The question has already asserted the answer in its premise, so a respondent who found it easy has no clean way to say so. Neutral rewrite: 'How would you describe the admissions process — very easy, easy, difficult, very difficult, or neither?'"},
+{"m":"Module 6","q":"Asked whether someone should be <b>allowed</b> to do something, 56% say yes; asked whether they should be <b>forbidden</b>, only 22% say no. This demonstrates:","o":["Sampling error between two surveys","Response substitution","That respondents are indifferent","A loaded question: the verb 'allow' vs 'forbid' shifts the answer, not the underlying opinion"],"a":3,"w":"Same substance, 56/44 vs 22/78. The wording carries the norm — permitting sounds permissive, forbidding sounds restrictive. This is why the deck warns against leading by verb choice, not just by adjective."},
+{"m":"Module 6","q":"The same TV-viewing question gets 16% 'more than 2.5 hours' on a low-frequency response scale and 38% on a high-frequency scale. The lesson:","o":["The response scale is part of the measurement: the anchors define what counts as 'a lot'","Respondents lie about television","The high-frequency scale was misprinted","Television viewing is inherently unmeasurable"],"a":0,"w":"Schwarz et al. (1985). Anchors supply a reference range, and respondents locate themselves inside it. The scale is not a neutral pipe — it produces the number."},
+{"m":"Module 6","q":"Asking about general life satisfaction <b>before</b> dating satisfaction gives r = −.01; asking dating first gives r = .66. Why?","o":["Random noise","Respondents remember earlier questions better","Question order sets the reference frame: the specific question activates information the general one then uses","The second sample was larger"],"a":2,"w":"Strack, Martin &amp; Schwarz (1988). A preceding specific question primes that domain, so the general judgment is built on it. Order matters most when the two questions are plausibly related — which is why general should come before specific."},
+{"m":"Module 6","q":"Why do demographics conventionally go at the <b>end</b> of a survey?","o":["Because making an identity salient first can prime stereotype threat and change later answers","Because they are the least important variables","Because respondents refuse to answer them at the start","Because they are needed only for weighting"],"a":0,"w":"Shih, Pittinsky &amp; Ambady (1999): making an identity salient before a task shifts performance. Asking age, gender or ethnicity up front can activate a stereotype that colours the substantive answers. Bank them at the end, where they also serve as a soft landing."},
+{"m":"Module 6","q":"Direct questioning gives 5.1% admitting a sensitive behaviour; the 'other people' approach gives 17.4%. What is the technique?","o":["Asking whether the respondent's friends do it, then treating that as the prevalence estimate","Asking the question twice and averaging","Using a shorter questionnaire","Offering a cash incentive for honesty"],"a":0,"w":"Ask about other people, then use their report as the prevalence estimate. The gap (5.1% → 17.4%) shows how much direct questions suppress; sewage testing corroborated the higher figure (Gregori, De Jong &amp; Pieters 2023). Companions: rapport, a counter-biasing statement that normalises the behaviour, and guaranteed anonymity."}
+];
+
+const CARDS=[
+{"tag":"Definition","t":"Heuristic","b":"A <b>mental shortcut</b> used for quick decision-making. Efficient and usually adaptive — not itself an error."},
+{"tag":"Definition","t":"Bias","b":"A <b>systematic</b> error in judgment that often results from heuristics. Systematic = directional = predictable = exploitable."},
+{"tag":"Definition","t":"Uncertainty effect","b":"A risky prospect is valued <b>below its worst certain outcome</b>. Gneezy, List &amp; Wu (2006): a 50/50 $50-or-$100 gamble is priced under $50."},
+{"tag":"Definition","t":"Conjunction fallacy","b":"Judging a conjunction (A and B) as more probable than A alone. Linda the bank teller. Tversky &amp; Kahneman (1983)."},
+{"tag":"Definition","t":"Anchoring","b":"An initial number drags subsequent estimates toward it, even when the number is arbitrary or irrelevant."},
+{"tag":"Research type","t":"Exploratory research","b":"Used when the problem is <b>ambiguous</b> — 'sales are declining and we don't know why'. Pilot studies, focus groups, secondary data, opinion leaders. Develops hunches; does not test hypotheses."},
+{"tag":"Research type","t":"Descriptive research","b":"Problem is known; you need the who / what / how much. 'Who is buying our products, and who is buying competitors'?'"},
+{"tag":"Research type","t":"Causal research","b":"Problem is clearly defined; you need cause and effect. 'Will buyers purchase more in a new package?' Experiments are the right tool."},
+{"tag":"Data","t":"Primary data","b":"Original data collected <b>for the specific question at hand</b>: focus groups, interviews, surveys, experiments."},
+{"tag":"Data","t":"Secondary data","b":"Data collected <b>for a different purpose</b>. The dividing line from primary is purpose, <i>not</i> who collected it."},
+{"tag":"Data","t":"Active collection","b":"The subject knows data are being collected: census, surveys, self-reports."},
+{"tag":"Data","t":"Passive collection","b":"Data recorded as a by-product: archival records, POS/scanner data, web logs, geodemographics. (Household panels are technically active — panellists consented.)"},
+{"tag":"Qual","t":"Clever Hans effect","b":"The questioner unintentionally cues the answer they expect, and the group supplies it. Named after the horse that 'did arithmetic' by reading its trainer."},
+{"tag":"Qual","t":"Laddering","b":"Repeatedly asking 'why?' of the previous answer to climb from attributes → consequences → values. Its payoff is <b>unknown unknowns</b>."},
+{"tag":"Validity","t":"Construct validity","b":"Does the measure actually capture the construct you care about? Secondary data's main threat: the proxy may not mean what you need."},
+{"tag":"Validity","t":"Internal validity","b":"Can you rule out alternative explanations and claim causation? Secondary data's second main threat — you did not control the design."},
+{"tag":"Data","t":"Geodemographics","b":"Classifying areas by residents' consumption and demographic patterns — 'birds of a feather flock together'. Passive, secondary, area-level inference."},
+{"tag":"Scales","t":"Categorical (nominal)","b":"Named, unordered options. Frequencies and chi-square only. Closest to real choice, least statistical power."},
+{"tag":"Scales","t":"Ordinal","b":"Ranked order without equal intervals (e.g. a ranking task). Permits median and non-parametric tests; forces trade-offs; awkward to analyse."},
+{"tag":"Scales","t":"Bi-polar continuous","b":"Two directions from a meaningful midpoint of <b>indifference</b>: −3 dislike … 0 … +3 like."},
+{"tag":"Scales","t":"Uni-polar continuous","b":"One direction from zero = <b>absence</b>: income, temperature, 0–10 likelihood."},
+{"tag":"Scales","t":"Reverse coding","b":"Phrasing some items negatively so agreement does not become a response habit. Must be recoded before scoring — a classic series-of-scales trap."},
+{"tag":"Survey","t":"Response substitution","b":"When a respondent cannot answer the question asked, they answer an easier related one instead. Gal &amp; Rucker's fondue set: 'Anne' vs 'Jane' changes the reference brand."},
+{"tag":"Survey","t":"Stereotype threat","b":"Making an identity salient before a task changes performance. Shih, Pittinsky &amp; Ambady (1999) — the reason demographics go last."},
+{"tag":"Survey","t":"Defaults","b":"The pre-selected option wins. Johnson &amp; Goldstein (2004): opt-in vs opt-out moves organ-donation enrolment more than any persuasion campaign."},
+{"tag":"Number","t":"Focus group mechanics","b":"<b>8–12 people</b>, <b>90–120 minutes</b>. Two groups per segment. Screening interviews to recruit. <b>$75–$400 per 2 hours</b>. Avoid professional respondents."},
+{"tag":"Number","t":"Wine prices and demand","b":"$10 / $20 / $40. High-quality quantity: <b>~72 → ~112 → ~29</b> (peak at $20). Low-quality: ~45 → ~20 → ~5."},
+{"tag":"Number","t":"'Fell short' percentages","b":"Low-quality wine: <b>20% → 40% → 50%</b> as price rises. High-quality: flat at ~10–12%. Expectations rising without quality."},
+{"tag":"Number","t":"Vibrating alarm framing","b":"Gain frame vs loss frame changed willingness to pay by <b>$13.34 more</b> vs <b>$60.93 less</b> — same device, different description."},
+{"tag":"Number","t":"Allow vs forbid","b":"Loaded question: <b>56/44</b> when asked whether people should be allowed, <b>22/78</b> when asked whether it should be forbidden."},
+{"tag":"Number","t":"Response scale effect","b":"<b>16% vs 38%</b> report watching more than 2.5 hrs of TV, depending on whether the scale is low- or high-frequency. Schwarz et al. (1985)."},
+{"tag":"Number","t":"Chile warning labels","b":"Araya et al. (2022): breakfast cereal purchases <b>−6.2%</b>; chocolates and cookies no significant change."},
+{"tag":"Number","t":"Sensitive questions","b":"<b>5.1%</b> admit the behaviour directly; <b>17.4%</b> under the other-people approach. Corroborated by sewage testing."},
+{"tag":"Number","t":"Question order","b":"Life satisfaction × dating: <b>r = −.01</b> general-first vs <b>r = .66</b> specific-first. Strack, Martin &amp; Schwarz (1988)."}
+];
+</script>
+
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id);};
+
+  /* ---- read progress ---- */
+  var boxes=[].slice.call(document.querySelectorAll('.check input'));
+  var stored={};
+  try{stored=JSON.parse(localStorage.getItem('cbdm-mod')||'{}')||{};}catch(e){stored={};}
+  function paint(){
+    var done=boxes.filter(function(b){return b.checked;}).length;
+    var p=boxes.length?Math.round(done/boxes.length*100):0;
+    if($('pct'))$('pct').textContent=p+'%';
+    if($('barfill'))$('barfill').style.width=p+'%';
+    boxes.forEach(function(b){
+      var link=document.querySelector('nav.side a[href="#'+b.getAttribute('data-mod')+'"]');
+      if(link){if(b.checked)link.classList.add('done');else link.classList.remove('done');}
+    });
+  }
+  boxes.forEach(function(b){
+    var key=b.getAttribute('data-mod');
+    if(stored[key])b.checked=true;
+    b.addEventListener('change',function(){
+      stored[key]=b.checked;
+      try{localStorage.setItem('cbdm-mod',JSON.stringify(stored));}catch(e){}
+      paint();
+    });
+  });
+  paint();
+
+  /* ---- drill ---- */
+  if(typeof QUIZ!=='undefined'&&$('qtext')){
+    var S={i:0,picks:new Array(QUIZ.length)};
+    for(var z=0;z<QUIZ.length;z++)S.picks[z]=null;
+
+    function correct(){var c=0;for(var i=0;i<QUIZ.length;i++)if(S.picks[i]===QUIZ[i].a)c++;return c;}
+    function answered(){var c=0;for(var i=0;i<QUIZ.length;i++)if(S.picks[i]!==null)c++;return c;}
+
+    function results(){
+      if($('qlab')){$('qlab').textContent='';$('qnum').textContent='all 28 answered';}
+      var got=correct(),total=QUIZ.length,pc=Math.round(got/total*100);
+      var mods={},order=[];
+      for(var i=0;i<QUIZ.length;i++){
+        var k=QUIZ[i].m;
+        if(!mods[k]){mods[k]=[0,0];order.push(k);}
+        mods[k][1]++;
+        if(S.picks[i]===QUIZ[i].a)mods[k][0]++;
+      }
+      var rows='';
+      for(var j=0;j<order.length;j++){
+        var k2=order[j];
+        rows+='<div><span>'+k2+'</span><span>'+mods[k2][0]+' / '+mods[k2][1]+'</span></div>';
+      }
+      var verdict=pc>=90?'Exam-ready. Reread the trap boxes only.':
+                  pc>=75?'Solid. Fix the two weakest modules above.':
+                  pc>=55?'Halfway — the mechanisms are the gap, not the names.':
+                  'Go back through the modules before drilling again.';
+      $('qresult').innerHTML='<div class="score"><div class="big">'+got+'/'+total+'</div>'+
+        '<div class="lbl">'+pc+'% correct</div>'+
+        '<p style="margin:10px 0 0;color:#4A4C55;font-size:14.5px">'+verdict+'</p></div>'+
+        '<div class="breakdown">'+rows+'</div>'+
+        '<div style="text-align:center;margin-top:20px"><button class="btn" id="qrestart">Restart the drill</button></div>';
+      $('qresult').style.display='block';
+      $('qrestart').onclick=function(){
+        S.i=0;for(var i=0;i<QUIZ.length;i++)S.picks[i]=null;
+        render();
+        var top=$('drill').getBoundingClientRect().top+window.pageYOffset-20;
+        window.scrollTo({top:top,behavior:'smooth'});
+      };
+    }
+
+    function render(){
+      var q=QUIZ[S.i];
+      if($('qlab'))$('qlab').textContent='question';
+      $('qnum').textContent=(S.i+1)+' of '+QUIZ.length;
+      $('qscore').textContent='Score '+correct()+' / '+answered();
+      $('qbarfill').style.width=(answered()/QUIZ.length*100)+'%';
+      $('qtext').innerHTML='<span style="display:block;font-family:inherit;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#A8401C;margin-bottom:9px">'+q.m+'</span>'+q.q;
+
+      var box=$('qopts');
+      box.innerHTML='';
+      for(var k=0;k<q.o.length;k++){
+        (function(k){
+          var b=document.createElement('button');
+          b.type='button';
+          b.className='opt';
+          b.innerHTML='<span class="k">'+'ABCD'[k]+'</span><span>'+q.o[k]+'</span>';
+          var p=S.picks[S.i];
+          if(p!==null){
+            b.disabled=true;
+            if(k===q.a)b.classList.add('right');
+            if(k===p&&p!==q.a)b.classList.add('wrong');
+          }else{
+            b.addEventListener('click',function(){S.picks[S.i]=k;render();});
+          }
+          box.appendChild(b);
+        })(k);
+      }
+
+      var why=$('qwhy');
+      var p2=S.picks[S.i];
+      if(p2!==null){
+        why.className='why show';
+        why.innerHTML='<b>'+(p2===q.a?'Correct.':'Not quite.')+'</b> '+q.w;
+      }else{
+        why.className='why';
+        why.innerHTML='';
+      }
+
+      $('qprev').disabled=(S.i===0);
+      $('qskip').textContent=(S.i===QUIZ.length-1)?'Finish \u203a':'Next \u203a';
+      if(answered()===QUIZ.length){results();$('quizbody').style.display='none';}
+      else{$('qresult').style.display='none';$('quizbody').style.display='block';}
+    }
+
+    $('qprev').addEventListener('click',function(){if(S.i>0){S.i--;render();}});
+    $('qskip').addEventListener('click',function(){
+      if(S.i<QUIZ.length-1){S.i++;render();}
+      else{results();$('qresult').scrollIntoView({behavior:'smooth',block:'center'});}
+    });
+    render();
+  }
+
+  /* ---- flashcards ---- */
+  if(typeof CARDS!=='undefined'&&$('cfront')){
+    var ci=0;
+    function card(){
+      var c=CARDS[ci];
+      $('cnum').textContent=(ci+1)+' of '+CARDS.length;
+      $('ctag').textContent=c.tag;
+      $('cface').textContent=c.tag;
+      $('cfront').textContent=c.t;
+      $('cback').innerHTML=c.b;
+      $('fcard').classList.remove('flip');
+    }
+    function go(d){ci=(ci+d+CARDS.length)%CARDS.length;card();}
+    $('fcard').addEventListener('click',function(){this.classList.toggle('flip');});
+    $('cflip').addEventListener('click',function(){var f=$('fcard');if(f)f.classList.toggle('flip');});
+    $('cprev').addEventListener('click',function(){go(-1);});
+    $('cnext').addEventListener('click',function(){go(1);});
+    document.addEventListener('keydown',function(e){
+      var t=e.target;
+      if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'))return;
+      if(e.key===' '||e.key==='Spacebar'){e.preventDefault();var f=$('fcard');if(f)f.classList.toggle('flip');}
+      else if(e.key==='ArrowLeft'){go(-1);}
+      else if(e.key==='ArrowRight'){go(1);}
+    });
+    card();
+  }
+})();
+</script>
+
+</body>
+</html>
